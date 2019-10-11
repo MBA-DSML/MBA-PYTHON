@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+        <form action="" method="POST" name="form">
+            <div class="col-md-4 col-md-offset-4">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <label class="control-label" for="nome">Nome</label>
+                    {{ form.nome }}
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="endereco">Endereço</label>
+                    {{ form.endereco }}
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="telefone">Telefone</label>
+                    {{ form.telefone }}
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="email">Email</label>
+                    {{ form.email }}
+                </div>
+                <button class="btn btn-default" type="submit">Salvar</button>
+                <button class="btn btn-default" type="submit">Voltar</button>
+            </div>
+        </form>
+
+{% endblock %}
