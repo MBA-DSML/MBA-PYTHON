@@ -1,8 +1,9 @@
 from app import app, lm
 from flask import request, redirect, render_template, url_for, flash
-from flask.ext.login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required
 from .forms import LoginForm,AgendaForm
 from .user import User
+from bson.objectid import ObjectId
 
 from .model.model import Agenda
 
@@ -19,21 +20,22 @@ def login():
         if user and User.validate_login(user['password'], form.password.data):
             user_obj = User(user['_id'])
             login_user(user_obj)
-            flash("Sucesso !!", category='success')
-            '''return redirect(request.args.get("next") or url_for("write"))'''
-            return render_template('listar.html', title='login', form=form)
-        flash("Senha Incorreta", category='error')
+            flash("Logado com Sucesso!", category='success')
+            return redirect(request.args.get("next") or url_for("write"))
+        flash("Usuario ou Senha incorreta!", category='error')
     return render_template('login.html', title='login', form=form)
 
 @app.route('/cadastro', methods=['GET','POST'])
 def cadastro():
-    form = AgendaForm()
-    if request.method == 'POST' and form.validate_on_submit():
-        agenda = Agenda(nome=form.nome.data, endereco=form.endereco.data, email=form.email.data, telefone=form.telefone.data)
+    if request.method == 'POST':
+        agenda = Agenda(nome=request.values.get('inputnome'), 
+                        endereco=request.values.get('inputend'), 
+                        email=request.values.get('inputteal'), 
+                        telefone=request.values.get('inputemail'))
         app.config['AGENDA_COLLECTION'].insert_one(agenda.para_json())
-        flash("Cadastro com sucesso", category='success')
+        flash("Cadastro com sucesso!", category='success')
         return redirect(request.args.get("next") or url_for("write"))
-    return render_template('agenda.html', title='cadastro', form=form)
+    return redirect(request.args.get("next") or url_for("write"))
 
 @app.route('/mostrar', methods=['GET','POST'])
 def mostrar():
@@ -43,9 +45,25 @@ def mostrar():
 @app.route("/remove")  
 def remove ():  
     key=request.values.get("_id") 
-    flash(key, category='info')
-    app.config['AGENDA_COLLECTION'].delete_one({"_id":"ObjectId(""" + key + "" + ")"})  
+    #flash(key, category='info')
+    app.config['AGENDA_COLLECTION'].delete_one({'_id': ObjectId(key)})
+    flash("Cadastro excluido com sucesso!", category='success')
     return redirect(request.args.get("next") or url_for("mostrar"))
+
+@app.route("/achaporID" , methods=['GET', 'POST'])  
+def achaporId ():  
+    key=request.values.get("_id") 
+    agenda = app.config['AGENDA_COLLECTION'].find_one({'_id': ObjectId(key)})
+    if request.method == 'POST':
+        agenda = Agenda(nome=request.values.get('inputnome'), 
+                        endereco=request.values.get('inputend'), 
+                        email=request.values.get('inputteal'), 
+                        telefone=request.values.get('inputemail'))
+        app.config['AGENDA_COLLECTION'].update({"_id":ObjectId(key)}, 
+        {'$set': agenda.para_json()})
+        flash("Cadastro atualizado com sucesso!", category='success')
+        return redirect(request.args.get("next") or url_for("mostrar"))
+    return render_template('agenda_alterar.html', query=agenda)
 
 @app.route('/logout')
 def logout():

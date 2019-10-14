@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Endereço</th>
+                    <th>Telefone</th>
+                    <th>Email</th>
+                    <th>Ação</th>
+                </tr>
+           </thead>
+           <tbody>
+               {%for agenda in query%}
+               <tr>
+                    <td>{{agenda.nome}}</td>
+                    <td>{{agenda.endereco}}</td>
+                    <td>{{agenda.email}}</td>
+                    <td>{{agenda.telefone}}</td>
+                    <td><a href="./achaporID?_id={{agenda['_id'] }}"><button type="submit" 
+                        class="btn btn-primary">Alterar</button></a></td>
+                    <td><a href="./remove?_id={{agenda['_id'] }}"><button type="submit" 
+                        class="btn btn-danger">Apagar</button></a></td>
+                    
+               </tr>
+               {%endfor%}
+           </tbody>
+        </table>
+
+{% endblock %}
