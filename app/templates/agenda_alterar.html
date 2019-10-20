@@ -1,26 +1,34 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form action="" method="POST" name="form">
-    <div class="col-md-4 col-md-offset-4">
-        <div class="form-group">
-            <label class="control-label" for="nome">Nome</label>
-            <input type="text" class="form-control" name="inputnome" value={{ query.nome }}>
+<div style="padding: 15px 8px;margin-top: 2px">
+
+    <h1 style="text-align: center;">Alterar Endereços</h1>
+            
+    <br>
+
+    <form action="" method="POST" name="form">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="form-group">
+                <label class="control-label" for="nome">Nome</label>
+                <input type="text" class="form-control" name="inputnome" value={{ query.nome }}>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="endereco">Endereço</label>
+                <input type="text" class="form-control" name="inputend" value={{ query.endereco }}>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="telefone">Telefone</label>
+                <input type="text" class="form-control" name="inputteal" value={{ query.telefone }}>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="email">Email</label>
+                <input type="text" class="form-control" name="inputemail" value={{ query.email }}>
+            </div>
+            <button type="submit" class="btn btn-primary">Alterar</button>
         </div>
-        <div class="form-group">
-            <label class="control-label" for="endereco">Endereço</label>
-            <input type="text" class="form-control" name="inputend" value={{ query.endereco }}>
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="telefone">Telefone</label>
-            <input type="text" class="form-control" name="inputteal" value={{ query.telefone }}>
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="email">Email</label>
-            <input type="text" class="form-control" name="inputemail" value={{ query.email }}>
-        </div>
-        <button type="submit" class="btn btn-primary">Alterar</button>
-    </div>
-</form>
+    </form>
+
+</div>
 
 {% endblock %}

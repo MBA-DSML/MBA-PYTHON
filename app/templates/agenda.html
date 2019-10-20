@@ -1,26 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form action="" method="POST" name="form">
-    <div class="col-md-4 col-md-offset-4">
-        <div class="form-group">
-            <label class="control-label" for="nome">Nome</label>
-            <input type="text" class="form-control" name="inputnome">
+<div style="padding: 15px 8px;margin-top: 2px">
+
+    <h1 style="text-align: center;">Cadastro de Endereços</h1>
+        
+    <br>
+
+    <form action="" method="POST" name="form">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="form-group">
+                <label class="control-label" for="nome">Nome</label>
+                <input type="text" class="form-control" name="inputnome">
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="endereco">Endereço</label>
+                <input type="text" class="form-control" name="inputend">
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="telefone">Telefone</label>
+                <input type="text" class="form-control" name="inputtel">
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="email">E-mail</label>
+                <input type="text" class="form-control" name="inputemail">
+            </div>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+
+            <a href="./agenda_retorna?"><button type="button" 
+                class="btn btn-danger">Retornar</button>
         </div>
-        <div class="form-group">
-            <label class="control-label" for="endereco">Endereço</label>
-            <input type="text" class="form-control" name="inputend">
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="telefone">Telefone</label>
-            <input type="text" class="form-control" name="inputteal">
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="email">Email</label>
-            <input type="text" class="form-control" name="inputemail">
-        </div>
-        <button type="submit" class="btn btn-primary">Salvar</button>
-    </div>
-</form>
+    </form>
+
+</div>
 
 {% endblock %}

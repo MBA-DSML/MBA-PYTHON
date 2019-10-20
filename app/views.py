@@ -11,7 +11,6 @@ from .model.model import Agenda
 def home():
     return render_template('home.html')
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -20,22 +19,24 @@ def login():
         if user and User.validate_login(user['password'], form.password.data):
             user_obj = User(user['_id'])
             login_user(user_obj)
-            flash("Logado com Sucesso!", category='success')
-            return redirect(request.args.get("next") or url_for("write"))
+            #flash("Logado com Sucesso!", category='success')
+            return redirect(request.args.get("next") or url_for("menu"))
         flash("Usuario ou Senha incorreta!", category='error')
     return render_template('login.html', title='login', form=form)
 
-@app.route('/cadastro', methods=['GET','POST'])
-def cadastro():
+@app.route('/agenda', methods=['GET','POST'])
+def agenda():
+
     if request.method == 'POST':
         agenda = Agenda(nome=request.values.get('inputnome'), 
                         endereco=request.values.get('inputend'), 
-                        email=request.values.get('inputteal'), 
-                        telefone=request.values.get('inputemail'))
+                        email=request.values.get('inputemail'), 
+                        telefone=request.values.get('inputtel'))
         app.config['AGENDA_COLLECTION'].insert_one(agenda.para_json())
         flash("Cadastro com sucesso!", category='success')
-        return redirect(request.args.get("next") or url_for("write"))
-    return redirect(request.args.get("next") or url_for("write"))
+        return redirect(request.args.get("next") or url_for("menu"))
+
+    return render_template('agenda.html')
 
 @app.route('/mostrar', methods=['GET','POST'])
 def mostrar():
@@ -65,17 +66,20 @@ def achaporId ():
         return redirect(request.args.get("next") or url_for("mostrar"))
     return render_template('agenda_alterar.html', query=agenda)
 
+@app.route("/agenda_retorna" , methods=['GET', 'POST'])  
+def agenda_retorna ():
+    return render_template('menu.html')
+
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
 
-@app.route('/write', methods=['GET', 'POST'])
+@app.route('/menu', methods=['GET', 'POST'])
 @login_required
-def write():
-    return render_template('write.html')
-
+def menu():
+    return render_template('menu.html')
 
 @app.route('/settings', methods=['GET', 'POST'])
 @login_required
